@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro, Source_Serif_4 } from "next/font/google";
+import { getThemeCssBlock } from "@/color/theme";
+import { getFontCssBlock } from "@/font/config";
 import { cv } from "@/data/cv";
 import "./globals.css";
 
 const beVietnam = Be_Vietnam_Pro({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin", "vietnamese"],
-  variable: "--font-dm-sans",
+  variable: "--font-dm-sans", // khớp fonts.sans.variable trong src/font/config.ts
   display: "swap",
 });
 
 const sourceSerif = Source_Serif_4({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-source-serif",
+  variable: "--font-source-serif", // khớp fonts.serif.variable trong src/font/config.ts
   display: "swap",
 });
 
@@ -34,7 +36,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang={cv.personal.locale} className={`${beVietnam.variable} ${sourceSerif.variable}`}>
+    <html
+      lang={cv.personal.locale}
+      className={`${beVietnam.variable} ${sourceSerif.variable}`}
+    >
+      <head>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `${getThemeCssBlock()}\n${getFontCssBlock()}`,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

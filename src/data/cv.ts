@@ -1,5 +1,10 @@
 /**
- * Nội dung CV — xem hướng dẫn đầy đủ: src/data/HUONG-DAN.md
+ * Nội dung CV — Basic template
+ *
+ * Hướng dẫn: src/data/HUONG_DAN_NHAP_LIEU.md
+ * Màu: src/color/theme.ts
+ * Font: src/font/config.ts
+ * Ảnh: src/avatar/config.ts
  */
 
 export type ContactLink = {
@@ -55,8 +60,6 @@ export const cv = {
     title: "Software Engineer",
     tagline: "Xây dựng sản phẩm web hiệu năng cao, dễ bảo trì",
     location: "Hồ Chí Minh, Việt Nam",
-    /** Để trống nếu không dùng ảnh — sẽ hiển thị chữ cái đầu */
-    avatarUrl: "",
     /** Ngôn ngữ hiển thị trang: "vi" | "en" */
     locale: "vi" as const,
   },
@@ -67,7 +70,7 @@ export const cv = {
 
   /**
    * Thông tin cá nhân bổ sung (sidebar).
-   * Để "" hoặc [] để ẩn từng mục — xem HUONG-DAN.md
+   * Để "" hoặc [] để ẩn từng mục — xem HUONG_DAN_NHAP_LIEU.md
    */
   personalInfo: {
     /** Phương châm sống */

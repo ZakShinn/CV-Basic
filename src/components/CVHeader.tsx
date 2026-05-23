@@ -1,3 +1,4 @@
+import { avatarConfig } from "@/avatar/config";
 import { cv } from "@/data/cv";
 
 function getInitials(name: string) {
@@ -11,6 +12,8 @@ function getInitials(name: string) {
 
 export function CVHeader() {
   const initials = getInitials(cv.personal.fullName);
+  const showAvatar = avatarConfig.enabled && avatarConfig.src;
+  const avatarAlt = avatarConfig.alt || cv.personal.fullName;
 
   return (
     <header className="relative overflow-hidden border-b border-[var(--color-border)] bg-gradient-to-b from-white via-white to-[var(--color-highlight)]/50">
@@ -24,18 +27,19 @@ export function CVHeader() {
           {/* Avatar */}
           <div className="relative shrink-0">
             <div
-              className="relative h-[7.75rem] w-[7.75rem] overflow-hidden rounded-full bg-[var(--color-highlight)] shadow-[0_8px_30px_-6px_rgba(15,23,42,0.12)] sm:h-[8.5rem] sm:w-[8.5rem]"
+              className={`relative h-[7.75rem] w-[7.75rem] overflow-hidden rounded-full bg-[var(--color-highlight)] shadow-[0_8px_30px_-6px_rgba(15,23,42,0.12)] sm:h-[8.5rem] sm:w-[8.5rem] ${avatarConfig.hideInPrint ? "no-print-avatar" : ""}`}
               style={{
                 boxShadow:
                   "0 0 0 1px color-mix(in srgb, var(--color-accent) 12%, transparent), 0 8px 24px -8px rgba(15, 23, 42, 0.15)",
               }}
             >
-              {cv.personal.avatarUrl ? (
+              {showAvatar ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={cv.personal.avatarUrl}
-                  alt={cv.personal.fullName}
-                  className="h-full w-full object-cover"
+                  src={avatarConfig.src}
+                  alt={avatarAlt}
+                  className="h-full w-full"
+                  style={{ objectFit: avatarConfig.objectFit }}
                 />
               ) : (
                 <span

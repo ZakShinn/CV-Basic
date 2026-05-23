@@ -18,7 +18,7 @@ Trang CV cá nhân chuyên nghiệp, dễ chỉnh sửa, deploy miễn phí trê
 | Ngôn ngữ | `languages` |
 | Người tham chiếu (tùy chọn) | `references` |
 
-**Hướng dẫn chi tiết** (dữ liệu, màu, font, ẩn section, PDF, …): [`src/data/HUONG-DAN.md`](src/data/HUONG-DAN.md)
+**Hướng dẫn** (dữ liệu, màu, font, ảnh, PDF): [`src/data/HUONG_DAN_NHAP_LIEU.md`](src/data/HUONG_DAN_NHAP_LIEU.md)
 
 **Nội dung CV:** `src/data/cv.ts`
 
@@ -52,13 +52,13 @@ Trên trang web, bấm **In / PDF** (hoặc `Ctrl+P` / `Cmd+P`) → chọn **Sav
 
 ## Ảnh đại diện
 
-Đặt URL ảnh vào `personal.avatarUrl` (HTTPS). Để trống `""` sẽ hiển thị chữ cái đầu tên.
-
-Hoặc đặt file trong `public/avatar.jpg` và dùng:
+Cấu hình tại `src/avatar/config.ts`. Đặt file trong `public/` và ghi:
 
 ```ts
-avatarUrl: "/avatar.jpg",
+src: "/avatar.jpg",
 ```
+
+Để trống `src` sẽ hiển thị chữ cái đầu tên.
 
 ## Ngôn ngữ
 

@@ -1,18 +1,6 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
-  --color-ink: #0f172a;
-  --color-ink-muted: #475569;
-  --color-surface: #f8fafc;
-  --color-accent: #1e3a5f;
-  --color-accent-light: #2d5a87;
-  /** Màu đậm cuối gradient header — src/data/HUONG-DAN.md */
-  --color-accent-dark: #152a45;
-  --color-border: #e2e8f0;
-  --color-highlight: #f1f5f9;
-}
+/* Màu & font: src/color/theme.ts, src/font/config.ts — inject trong layout.tsx */
 
 @layer base {
   html {
@@ -41,6 +29,10 @@
   }
 
   .no-print {
+    display: none !important;
+  }
+
+  .no-print-avatar {
     display: none !important;
   }
 
