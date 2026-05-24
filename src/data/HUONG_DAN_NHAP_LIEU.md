@@ -38,7 +38,7 @@ Mẫu CV **một trang**, hai cột — phù hợp IT, kinh doanh tổng quát, 
 
 ## In PDF
 
-Nút **In / PDF** trên thanh công cụ hoặc **Ctrl+P** → khổ **A4**, lề mặc định. Bật **In nền** nếu muốn giữ màu sidebar. Thanh công cụ có class `no-print` nên không xuất hiện trên bản in.
+Nút **In CV** mở hộp thoại in (Ctrl+P) → khổ **A4**. **Tải PDF** xuất file PDF trực tiếp. **Tải DOCX** xuất Word từ dữ liệu `cv.ts`. Bật **In nền** nếu muốn giữ màu sidebar.
 
 ## Xem thay đổi
 

@@ -1,63 +1,28 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { cv } from "@/data/cv";
 import { CVFooter } from "./CVFooter";
 import { CVHeader } from "./CVHeader";
+import { CVToolbar, sectionLabels, type CVLocale } from "./CVToolbar";
 import { ContactIcon } from "./icons";
 import { PersonalInfoSections } from "./PersonalInfoSections";
-import { PrintButton } from "./PrintButton";
 import { Section } from "./Section";
 
-const labels = {
-  vi: {
-    summary: "Tóm tắt",
-    experience: "Kinh nghiệm làm việc",
-    education: "Học vấn",
-    skills: "Kỹ năng",
-    projects: "Dự án",
-    certifications: "Chứng chỉ",
-    languages: "Ngôn ngữ",
-    references: "Người tham chiếu",
-    motto: "Phương châm sống",
-    softSkills: "Kỹ năng mềm",
-    interests: "Sở thích",
-    aspirations: "Mong muốn",
-    print: "In / PDF",
-    present: "Hiện tại",
-  },
-  en: {
-    summary: "Summary",
-    experience: "Experience",
-    education: "Education",
-    skills: "Skills",
-    projects: "Projects",
-    certifications: "Certifications",
-    languages: "Languages",
-    references: "References",
-    motto: "Life motto",
-    softSkills: "Soft skills",
-    interests: "Interests",
-    aspirations: "Career goals",
-    print: "Print / PDF",
-    present: "Present",
-  },
-} as const;
-
-const personalLabels = {
-  vi: {
-    motto: labels.vi.motto,
-    softSkills: labels.vi.softSkills,
-    interests: labels.vi.interests,
-    aspirations: labels.vi.aspirations,
-  },
-  en: {
-    motto: labels.en.motto,
-    softSkills: labels.en.softSkills,
-    interests: labels.en.interests,
-    aspirations: labels.en.aspirations,
-  },
-} as const;
-
 export function CVPage() {
-  const t = labels[cv.personal.locale];
+  const [locale, setLocale] = useState<CVLocale>(cv.personal.locale);
+  const t = sectionLabels[locale];
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
+  const personalLabels = {
+    motto: t.motto,
+    softSkills: t.softSkills,
+    interests: t.interests,
+    aspirations: t.aspirations,
+  };
 
   return (
     <div className="min-h-screen">
@@ -67,12 +32,17 @@ export function CVPage() {
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-ink-muted)]">
             CV · A4
           </p>
-          <PrintButton label={t.print} />
+          <CVToolbar locale={locale} onToggleLocale={() => setLocale((l) => (l === "vi" ? "en" : "vi"))} />
         </div>
       </div>
 
       <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
-        <article className="relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[0_24px_48px_-24px_rgba(15,23,42,0.18),0_0_0_1px_rgba(15,23,42,0.03)]">
+        <article
+          id="cv-document"
+          itemScope
+          itemType="https://schema.org/Person"
+          className="relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[0_24px_48px_-24px_rgba(15,23,42,0.18),0_0_0_1px_rgba(15,23,42,0.03)] dark:bg-slate-900"
+        >
           <div
             className="h-1 w-full bg-gradient-to-r from-[var(--color-accent-dark)] via-[var(--color-accent)] to-[var(--color-accent-light)]"
             aria-hidden
@@ -103,7 +73,7 @@ export function CVPage() {
               </nav>
 
               <div className="mt-10 space-y-10">
-                <PersonalInfoSections labels={personalLabels[cv.personal.locale]} />
+                <PersonalInfoSections labels={personalLabels} />
 
                 <Section id="skills" title={t.skills}>
                   <div className="space-y-5">
