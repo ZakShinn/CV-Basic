@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { cv, type CVContent } from "@/data/cv";
+import { isFeatureEnabled, isSectionEnabled } from "@/config";
+import { cv, type CVContent } from "@/resume";
 import { CVFooter } from "./CVFooter";
 import { CVHeader } from "./CVHeader";
 import { CVToolbar, sectionLabels, type CVLocale } from "./CVToolbar";
@@ -98,37 +99,44 @@ export function CVPage() {
             className="cv-paper relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[0_24px_48px_-24px_rgba(15,23,42,0.18),0_0_0_1px_rgba(15,23,42,0.03)]"
             key={locale}
           >
-            <div
-              className="h-1 w-full bg-gradient-to-r from-[var(--color-accent-dark)] via-[var(--color-accent)] to-[var(--color-accent-light)]"
-              aria-hidden
-            />
+            {isFeatureEnabled("accentBar") && (
+              <div
+                className="h-1 w-full bg-gradient-to-r from-[var(--color-accent-dark)] via-[var(--color-accent)] to-[var(--color-accent-light)]"
+                aria-hidden
+              />
+            )}
             <CVHeader data={displayData} />
 
             <div className="grid gap-0 lg:grid-cols-[280px_1fr]">
               <aside className="border-b border-[var(--color-border)] bg-gradient-to-b from-[var(--color-highlight)] via-[var(--color-highlight)]/60 to-white px-6 py-8 lg:border-b-0 lg:border-r">
-                <nav aria-label="Liên hệ">
-                  <ul className="space-y-3">
-                    {displayData.contact.map((item) => (
-                      <li key={`${item.icon}-${item.href}`}>
-                        <a
-                          href={item.href}
-                          className="group flex items-start gap-3 text-sm text-[var(--color-ink-muted)] transition hover:text-[var(--color-accent)]"
-                          {...(item.icon === "location" ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-                        >
-                          <ContactIcon
-                            type={item.icon}
-                            className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-accent-light)] group-hover:text-[var(--color-accent)]"
-                          />
-                          <span className="break-all leading-snug">{item.label}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
+                {isSectionEnabled("contact") && displayData.contact.length > 0 && (
+                  <nav aria-label="Liên hệ">
+                    <ul className="space-y-3">
+                      {displayData.contact.map((item) => (
+                        <li key={`${item.icon}-${item.href}`}>
+                          <a
+                            href={item.href}
+                            className="group flex items-start gap-3 text-sm text-[var(--color-ink-muted)] transition hover:text-[var(--color-accent)]"
+                            {...(item.icon === "location" ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+                          >
+                            <ContactIcon
+                              type={item.icon}
+                              className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-accent-light)] group-hover:text-[var(--color-accent)]"
+                            />
+                            <span className="break-all leading-snug">{item.label}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                )}
 
                 <div className="mt-10 space-y-10">
-                  <PersonalInfoSections data={displayData} labels={personalLabels} />
+                  {isSectionEnabled("personalInfo") && (
+                    <PersonalInfoSections data={displayData} labels={personalLabels} />
+                  )}
 
+                  {isSectionEnabled("skills") && displayData.skills.length > 0 && (
                   <Section id="skills" title={t.skills}>
                     <div className="space-y-5">
                       {displayData.skills.map((group) => (
@@ -150,8 +158,9 @@ export function CVPage() {
                       ))}
                     </div>
                   </Section>
+                  )}
 
-                  {displayData.languages.length > 0 && (
+                  {isSectionEnabled("languages") && displayData.languages.length > 0 && (
                     <Section id="languages" title={t.languages}>
                       <ul className="space-y-2">
                         {displayData.languages.map((lang) => (
@@ -164,7 +173,7 @@ export function CVPage() {
                     </Section>
                   )}
 
-                  {displayData.certifications.length > 0 && (
+                  {isSectionEnabled("certifications") && displayData.certifications.length > 0 && (
                     <Section id="certifications" title={t.certifications}>
                       <ul className="space-y-3">
                         {displayData.certifications.map((cert) => (
@@ -182,15 +191,17 @@ export function CVPage() {
               </aside>
 
               <div className="space-y-10 px-6 py-8 sm:px-10 sm:py-10">
+                {isSectionEnabled("summary") && displayData.summary.trim().length > 0 && (
                 <Section id="summary" title={t.summary}>
                   <p className="text-sm leading-relaxed text-[var(--color-ink-muted)]">{displayData.summary}</p>
                 </Section>
+                )}
 
+                {isSectionEnabled("experience") && displayData.experience.length > 0 && (
                 <Section id="experience" title={t.experience}>
-                  <ol className="relative space-y-8 border-l-2 border-[var(--color-accent)]/20 pl-6">
+                  <ol className="space-y-8">
                     {displayData.experience.map((job) => (
-                      <li key={`${job.company}-${job.period}`} className="print-break-inside-avoid relative">
-                        <span className="absolute -left-[9px] mt-1.5 h-4 w-4 rounded-full border-2 border-white bg-[var(--color-accent)] shadow-[0_0_0_3px_color-mix(in_srgb,var(--color-accent)_15%,transparent)]" />
+                      <li key={`${job.company}-${job.period}`} className="print-break-inside-avoid border-l-2 border-[var(--color-border)] pl-4">
                         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                           <div>
                             <h3 className="font-semibold text-[var(--color-ink)]">{job.role}</h3>
@@ -217,7 +228,9 @@ export function CVPage() {
                     ))}
                   </ol>
                 </Section>
+                )}
 
+                {isSectionEnabled("education") && displayData.education.length > 0 && (
                 <Section id="education" title={t.education}>
                   <ul className="space-y-4">
                     {displayData.education.map((edu) => (
@@ -238,8 +251,9 @@ export function CVPage() {
                     ))}
                   </ul>
                 </Section>
+                )}
 
-                {displayData.projects.length > 0 && (
+                {isSectionEnabled("projects") && displayData.projects.length > 0 && (
                   <Section id="projects" title={t.projects}>
                     <ul className="space-y-5">
                       {displayData.projects.map((project) => (
@@ -283,7 +297,7 @@ export function CVPage() {
                   </Section>
                 )}
 
-                {displayData.references.length > 0 && (
+                {isSectionEnabled("references") && displayData.references.length > 0 && (
                   <Section id="references" title={t.references}>
                     <ul className="grid gap-4 sm:grid-cols-2">
                       {displayData.references.map((ref) => (
@@ -304,7 +318,7 @@ export function CVPage() {
           </article>
         )}
 
-        <CVFooter />
+        {isFeatureEnabled("pageFooter") && <CVFooter />}
       </main>
     </div>
   );

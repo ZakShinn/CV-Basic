@@ -1,4 +1,4 @@
-import type { CVContent } from "@/data/cv";
+import type { CVContent } from "@/resume";
 import { Section } from "./Section";
 
 type PersonalLabels = {

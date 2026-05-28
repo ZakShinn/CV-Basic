@@ -1,23 +1,24 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro, Source_Serif_4 } from "next/font/google";
-import { getThemeCssBlock } from "@/color/theme";
-import { getFontCssBlock } from "@/font/config";
+import { getThemeCssBlock } from "@/color";
+import { getFontCssBlock } from "@/font";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { cv } from "@/data/cv";
-import { DEFAULT_AVATAR_SRC } from "@/avatar/config";
+import { cv } from "@/resume";
+import { DEFAULT_AVATAR_SRC } from "@/avatar";
+import { isSearchIndexingAllowed } from "@/config";
 import { buildPersonJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const beVietnam = Be_Vietnam_Pro({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin", "vietnamese"],
-  variable: "--font-dm-sans", // khớp fonts.sans.variable trong src/font/config.ts
+  variable: "--font-dm-sans", // khớp fonts.sans.variable trong src/font.ts
   display: "swap",
 });
 
 const sourceSerif = Source_Serif_4({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-source-serif", // khớp fonts.serif.variable trong src/font/config.ts
+  variable: "--font-source-serif", // khớp fonts.serif.variable trong src/font.ts
   display: "swap",
 });
 
@@ -37,7 +38,20 @@ export const metadata: Metadata = {
     title: cv.meta.siteTitle,
     description: cv.meta.description,
   },
-  robots: { index: true, follow: true },
+  robots: isSearchIndexingAllowed()
+    ? { index: true, follow: true }
+    : {
+        index: false,
+        follow: false,
+        nocache: true,
+        googleBot: {
+          index: false,
+          follow: false,
+          noimageindex: true,
+          "max-image-preview": "none",
+          "max-snippet": -1,
+        },
+      },
   icons: {
     icon: DEFAULT_AVATAR_SRC,
     shortcut: DEFAULT_AVATAR_SRC,
@@ -65,10 +79,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-        />
+        {isSearchIndexingAllowed() && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          />
+        )}
         <style
           dangerouslySetInnerHTML={{
             __html: `${getThemeCssBlock()}\n${getFontCssBlock()}`,

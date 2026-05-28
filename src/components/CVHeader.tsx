@@ -1,5 +1,5 @@
-import { avatarConfig, resolveAvatarSrc } from "@/avatar/config";
-import type { CVContent } from "@/data/cv";
+import { avatarConfig, resolveAvatarSrc } from "@/avatar";
+import type { CVContent } from "@/resume";
 
 function getInitials(name: string) {
   return name
@@ -54,10 +54,6 @@ export function CVHeader({ data }: { data: CVContent }) {
                 </span>
               )}
             </div>
-            <span
-              className="pointer-events-none absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full border-2 border-white bg-[var(--color-accent)]"
-              aria-hidden
-            />
           </div>
 
           {/* Tên & thông tin */}

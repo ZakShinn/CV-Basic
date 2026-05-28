@@ -1,4 +1,4 @@
-import { cv, type CVContent } from "@/data/cv";
+import { cv, type CVContent } from "@/resume";
 import { translateCVData } from "@/lib/translate-cv";
 import { NextResponse } from "next/server";
 

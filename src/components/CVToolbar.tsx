@@ -1,7 +1,8 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import type { CVContent } from "@/data/cv";
+import { isFeatureEnabled } from "@/config";
+import type { CVContent } from "@/resume";
 import { ExportToolbar } from "./ExportToolbar";
 
 type CVLocale = "vi" | "en";
@@ -28,6 +29,9 @@ export function CVToolbar({
   const ui = uiLabels[locale];
   const isDark = resolvedTheme === "dark";
 
+  const showExport =
+    isFeatureEnabled("print") || isFeatureEnabled("pdfExport") || isFeatureEnabled("docxExport");
+
   return (
     <div className="flex flex-wrap items-center gap-2">
       {error && (
@@ -35,24 +39,30 @@ export function CVToolbar({
           {error}
         </span>
       )}
-      <button
-        type="button"
-        onClick={onToggleLocale}
-        disabled={loading}
-        className="rounded-lg border border-[var(--color-border)] bg-white px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-ink-muted)] transition hover:border-[var(--color-accent)] disabled:opacity-60 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300"
-        aria-label="Switch language"
-      >
-        {loading ? ui.translating : ui.switchLang}
-      </button>
-      <button
-        type="button"
-        onClick={() => setTheme(isDark ? "light" : "dark")}
-        className="rounded-lg border border-[var(--color-border)] bg-white px-3 py-2 text-xs font-medium text-[var(--color-ink-muted)] transition hover:border-[var(--color-accent)] dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300"
-        aria-label={isDark ? "Light mode" : "Dark mode"}
-      >
-        {isDark ? "☀" : "☾"}
-      </button>
-      <ExportToolbar labels={{ print: ui.print, pdf: ui.pdf, docx: ui.docx }} cvData={cvData} locale={locale} />
+      {isFeatureEnabled("languageSwitch") && (
+        <button
+          type="button"
+          onClick={onToggleLocale}
+          disabled={loading}
+          className="rounded-lg border border-[var(--color-border)] bg-white px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-ink-muted)] transition hover:border-[var(--color-accent)] disabled:opacity-60 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300"
+          aria-label="Switch language"
+        >
+          {loading ? ui.translating : ui.switchLang}
+        </button>
+      )}
+      {isFeatureEnabled("darkMode") && (
+        <button
+          type="button"
+          onClick={() => setTheme(isDark ? "light" : "dark")}
+          className="rounded-lg border border-[var(--color-border)] bg-white px-3 py-2 text-xs font-medium text-[var(--color-ink-muted)] transition hover:border-[var(--color-accent)] dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300"
+          aria-label={isDark ? "Light mode" : "Dark mode"}
+        >
+          {isDark ? "☀" : "☾"}
+        </button>
+      )}
+      {showExport && (
+        <ExportToolbar labels={{ print: ui.print, pdf: ui.pdf, docx: ui.docx }} cvData={cvData} locale={locale} />
+      )}
     </div>
   );
 }

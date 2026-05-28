@@ -1,11 +1,10 @@
 /**
  * ═══════════════════════════════════════════════════════════════
- *  CẤU HÌNH MÀU — chỉnh tại file này
- *  Hướng dẫn: src/color/HUONG_DAN_DOI_MAU.md
+ *  MÀU CV & TRANG WEB — chỉnh tại file này
+ *  Hướng dẫn: src/README.md
  * ═══════════════════════════════════════════════════════════════
  */
 
-/** Màu chính trên CV và trang web */
 export const colors = {
   ink: "#0f172a",
   inkMuted: "#475569",
@@ -17,7 +16,6 @@ export const colors = {
   highlight: "#f1f5f9",
 } as const;
 
-/** Preset gợi ý — copy vào `colors` nếu muốn đổi nhanh cả bộ */
 export const presets = {
   navy: { ...colors },
   green: {
@@ -42,10 +40,7 @@ export const presets = {
   },
 } as const;
 
-/** Khối CSS inject vào :root (layout.tsx) */
-export function getThemeCssBlock(
-  palette: typeof colors = colors
-): string {
+export function getThemeCssBlock(palette: typeof colors = colors): string {
   return [
     ":root {",
     `  --color-ink: ${palette.ink};`,

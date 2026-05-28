@@ -1,4 +1,4 @@
-import type { ContactLink } from "@/data/cv";
+import type { ContactLink } from "@/resume";
 
 type IconProps = { className?: string };
 

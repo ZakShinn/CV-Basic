@@ -1,17 +1,12 @@
 /**
  * ═══════════════════════════════════════════════════════════════
- *  CẤU HÌNH FONT — chỉnh tại file này
- *  Hướng dẫn: src/font/HUONG_DAN_DOI_FONT.md
+ *  FONT CV & TRANG WEB — chỉnh tại file này (+ src/app/layout.tsx)
+ *  Hướng dẫn: src/README.md
  * ═══════════════════════════════════════════════════════════════
- *
- * Dự án dùng next/font/google — khi đổi font, cập nhật cả `family` ở đây
- * và import tương ứng trong `src/app/layout.tsx`.
  */
 
 export interface FontRole {
-  /** Tên hiển thị trên Google Fonts */
   family: string;
-  /** Tên import next/font, vd: Be_Vietnam_Pro */
   nextFontId: "Be_Vietnam_Pro" | "Source_Serif_4" | "Inter" | "Roboto" | "Open_Sans";
   variable: string;
 }
@@ -29,7 +24,6 @@ export const fonts = {
   },
 } as const;
 
-/** Biến CSS cho Tailwind @theme / body */
 export function getFontCssBlock(theme = fonts): string {
   return [
     ":root {",

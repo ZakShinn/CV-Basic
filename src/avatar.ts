@@ -1,26 +1,23 @@
 /**
  * ═══════════════════════════════════════════════════════════════
- *  CẤU HÌNH ẢNH ĐẠI DIỆN — chỉnh tại file này
- *  Hướng dẫn: src/avatar/HUONG_DAN_ANH_DAI_DIEN.md
+ *  ẢNH ĐẠI DIỆN CV — chỉnh tại file này
+ *  Hướng dẫn: src/README.md
  * ═══════════════════════════════════════════════════════════════
  */
 
 export type AvatarObjectFit = "cover" | "contain";
 
 export interface AvatarConfig {
-  /** `true` = hiển thị avatar (ảnh hoặc chữ cái đầu); `false` = ẩn hoàn toàn */
   enabled: boolean;
-  /** Đường dẫn từ `public/`, vd: `/avatar/anh-cua-toi.jpg` — để trống dùng placeholder mẫu */
+  /** Đường dẫn từ `public/`, vd: `/avatar/anh-cua-toi.jpg` */
   src: string;
-  /** Mô tả ảnh (accessibility) — để trống sẽ dùng họ tên từ cv.ts */
+  /** Trống = dùng họ tên từ resume-basic.ts */
   alt: string;
   objectFit: AvatarObjectFit;
-  /** `true` = không in ảnh ra PDF */
   hideInPrint: boolean;
 }
 
-/** Ảnh đại diện + favicon trình duyệt — `public/avatar/anh_dai_dien.png` */
-export const DEFAULT_AVATAR_SRC = "/avatar/anh_dai_dien.png";
+export const DEFAULT_AVATAR_SRC = "/avatar/avatar.jpg";
 
 export const avatarConfig: AvatarConfig = {
   enabled: true,
@@ -30,7 +27,6 @@ export const avatarConfig: AvatarConfig = {
   hideInPrint: false,
 };
 
-/** URL hiển thị — ưu tiên `src` tùy chỉnh, sau đó placeholder mẫu */
 export function resolveAvatarSrc(customSrc?: string): string {
   if (!avatarConfig.enabled) return "";
   const custom = customSrc?.trim() || avatarConfig.src.trim();

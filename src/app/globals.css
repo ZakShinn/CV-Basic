@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Màu & font: src/color/theme.ts, src/font/config.ts — inject trong layout.tsx */
+/* Màu & font: src/color.ts, src/font.ts — xem src/README.md */
 
 @theme {
   --font-sans: var(--font-dm-sans), "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;

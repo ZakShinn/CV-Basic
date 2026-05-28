@@ -1,4 +1,4 @@
-import type { CVContent } from "@/data/cv";
+import type { CVContent } from "@/resume";
 import { translateTextFree } from "@/lib/translate-providers";
 
 /** Không dịch URL, email, SĐT; giữ thuật ngữ / tên Latin */

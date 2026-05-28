@@ -5,7 +5,7 @@ import {
   Paragraph,
   TextRun,
 } from "docx";
-import type { CVContent } from "@/data/cv";
+import type { CVContent } from "@/resume";
 import type { CVLocale } from "@/components/CVToolbar";
 
 const sectionTitles = {
