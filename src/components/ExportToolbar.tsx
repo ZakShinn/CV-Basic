@@ -2,12 +2,10 @@
 
 import { useState } from "react";
 import { isFeatureEnabled } from "@/config";
+import type { CVLocale } from "@/lib/cv-locale";
 import type { CVContent } from "@/resume";
-import { downloadBlob, exportCvToDocx } from "@/lib/export-docx";
-import { exportToPDF } from "@/lib/export-pdf";
 import { printCV } from "@/lib/print";
 import { ATS_PDF_HINT } from "@/lib/seo";
-import type { CVLocale } from "./CVToolbar";
 
 type ExportLabels = {
   print: string;
@@ -33,6 +31,7 @@ export function ExportToolbar({
     if (!el) return;
     setLoading("pdf");
     try {
+      const { exportToPDF } = await import("@/lib/export-pdf");
       await exportToPDF(el, `CV_${baseName}.pdf`);
     } finally {
       setLoading(null);
@@ -42,6 +41,7 @@ export function ExportToolbar({
   async function handleDocx() {
     setLoading("docx");
     try {
+      const { downloadBlob, exportCvToDocx } = await import("@/lib/export-docx");
       const blob = await exportCvToDocx(cvData, locale);
       downloadBlob(blob, `CV_${baseName}.docx`);
     } finally {

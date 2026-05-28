@@ -10,16 +10,21 @@ import { buildPersonJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const beVietnam = Be_Vietnam_Pro({
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
   subsets: ["latin", "vietnamese"],
   variable: "--font-dm-sans", // khớp fonts.sans.variable trong src/font.ts
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const sourceSerif = Source_Serif_4({
+  weight: ["400", "600"],
   subsets: ["latin", "latin-ext"],
   variable: "--font-source-serif", // khớp fonts.serif.variable trong src/font.ts
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {

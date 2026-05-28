@@ -1,12 +1,5 @@
-import {
-  Document,
-  HeadingLevel,
-  Packer,
-  Paragraph,
-  TextRun,
-} from "docx";
+import type { CVLocale } from "@/lib/cv-locale";
 import type { CVContent } from "@/resume";
-import type { CVLocale } from "@/components/CVToolbar";
 
 const sectionTitles = {
   vi: {
@@ -30,8 +23,10 @@ const sectionTitles = {
 } as const;
 
 export async function exportCvToDocx(data: CVContent, locale: CVLocale = "vi"): Promise<Blob> {
+  const { Document, HeadingLevel, Packer, Paragraph, TextRun } = await import("docx");
+
   const t = sectionTitles[locale];
-  const children: Paragraph[] = [];
+  const children: InstanceType<typeof Paragraph>[] = [];
 
   children.push(
     new Paragraph({

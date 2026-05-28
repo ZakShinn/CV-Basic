@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { avatarConfig, resolveAvatarSrc } from "@/avatar";
 import type { CVContent } from "@/resume";
@@ -13,12 +14,15 @@ function getInitials(name: string) {
     .join("");
 }
 
+const AVATAR_PX = 136;
+
 export function CVHeader({ data }: { data: CVContent }) {
   const initials = getInitials(data.personal.fullName);
   const avatarSrc = resolveAvatarSrc();
   const [imgError, setImgError] = useState(false);
   const showAvatar = avatarConfig.enabled && Boolean(avatarSrc) && !imgError;
   const avatarAlt = avatarConfig.alt || data.personal.fullName;
+  const objectFitClass = avatarConfig.objectFit === "contain" ? "object-contain" : "object-cover";
 
   return (
     <header className="relative overflow-hidden border-b border-[var(--color-border)] bg-gradient-to-b from-white via-white to-[var(--color-highlight)]/50">
@@ -29,7 +33,6 @@ export function CVHeader({ data }: { data: CVContent }) {
 
       <div className="relative px-6 py-11 sm:px-10 sm:py-14">
         <div className="flex flex-col items-center gap-9 md:flex-row md:items-center md:gap-12 lg:gap-14">
-          {/* Avatar */}
           <div className="relative shrink-0">
             <div
               className={`relative h-[7.75rem] w-[7.75rem] overflow-hidden rounded-full bg-[var(--color-highlight)] shadow-[0_8px_30px_-6px_rgba(15,23,42,0.12)] sm:h-[8.5rem] sm:w-[8.5rem] ${avatarConfig.hideInPrint ? "no-print-avatar" : ""}`}
@@ -39,12 +42,14 @@ export function CVHeader({ data }: { data: CVContent }) {
               }}
             >
               {showAvatar ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={avatarSrc}
                   alt={avatarAlt}
-                  className="h-full w-full"
-                  style={{ objectFit: avatarConfig.objectFit }}
+                  width={AVATAR_PX}
+                  height={AVATAR_PX}
+                  priority
+                  sizes="(max-width: 768px) 124px, 136px"
+                  className={`h-full w-full ${objectFitClass}`}
                   onError={() => setImgError(true)}
                 />
               ) : (
@@ -61,7 +66,6 @@ export function CVHeader({ data }: { data: CVContent }) {
             </div>
           </div>
 
-          {/* Tên & thông tin */}
           <div className="min-w-0 flex-1 text-center md:text-left">
             <h1 className="font-serif text-[1.75rem] font-semibold leading-[1.15] tracking-tight text-[var(--color-ink)] sm:text-[2.125rem] lg:text-[2.375rem]">
               {data.personal.fullName}

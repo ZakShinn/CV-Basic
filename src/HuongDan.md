@@ -183,3 +183,10 @@ Mỗi dòng trong object `colors` có **ghi chú** giải thích dùng cho phầ
 - **Ctrl+P** / **In CV** → A4, bật *In nền*  
 - Deploy Vercel → cập nhật `meta.siteUrl` trong `resume-advanced.ts`
 
+## Hiệu năng (đã tối ưu sẵn)
+
+- Trang tải **không** gói thư viện PDF/DOCX — chỉ tải khi bấm Tải PDF / Tải DOCX.
+- Ảnh đại diện dùng `next/image` (WebP/AVIF, ưu tiên LCP).
+- Font Google chỉ tải các weight đang dùng.
+- Ảnh `public/avatar/` nên &lt; 200 KB, vuông ~400×400 px để load nhanh hơn.
+
